@@ -198,6 +198,8 @@ class ConsoleHelper extends QuestionHelper
         // symfony/console narrows OutputInterface::writeln()'s $options to int<0, 511>, its own
         // bitmask range; $options here is always one of Propel's own callers passing
         // OUTPUT_*/VERBOSITY_* constants, which fall within that range.
+        // We can't write int<0, 511> $options` in the @param block because phpcs does not understand it.
+        // Sniff causing the problem: Spryker.Commenting.DocBlockParamAllowDefaultValue.Typehint
         // @phpstan-ignore-next-line argument.type
         $this->output->writeln($messages, $options);
     }
