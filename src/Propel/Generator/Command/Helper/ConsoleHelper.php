@@ -189,12 +189,16 @@ class ConsoleHelper extends QuestionHelper
 
     /**
      * @param iterable|string $messages
-     * @param int<0, 511> $options
+     * @param int $options
      *
      * @return void
      */
     public function writeln($messages, int $options = 0): void
     {
+        // symfony/console narrows OutputInterface::writeln()'s $options to int<0, 511>, its own
+        // bitmask range; $options here is always one of Propel's own callers passing
+        // OUTPUT_*/VERBOSITY_* constants, which fall within that range.
+        // @phpstan-ignore-next-line argument.type
         $this->output->writeln($messages, $options);
     }
 
